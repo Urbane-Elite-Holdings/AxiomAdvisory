@@ -51,21 +51,21 @@ export default function K2KPartnerPortalPage() {
   ];
 
   const auditResolutions = [
-    { n:"01", issue:"Free Wix subdomain",            fix:"Custom domain + branded portal URL" },
-    { n:"02", issue:"Lorem ipsum testimonials",      fix:"Authenticated Testimonial Engine" },
-    { n:"03", issue:"Non-professional Gmail",        fix:"Google Workspace branded email" },
-    { n:"04", issue:"No client portal",              fix:"Full authenticated student portal" },
-    { n:"05", issue:"No milestone tracking",         fix:"14-step HBCU Milestone Tracker" },
-    { n:"06", issue:"No alumni network",             fix:"Alumni Network Module" },
-    { n:"07", issue:"Truncated About section",       fix:"Dedicated Advisor Profile Page" },
-    { n:"08", issue:"Broken navigation link",        fix:"Multi-route application architecture" },
-    { n:"09", issue:"Stock photography gallery",     fix:"Portal Media Gallery (real students)" },
-    { n:"10", issue:"No FAQ section",               fix:"Tiered FAQ: public + gated portal" },
-    { n:"11", issue:"No blog or resource library",  fix:"SEO Blog + Gated Resource Library" },
-    { n:"12", issue:"Basic Wix Bookings",           fix:"Integrated Scheduling Center" },
-    { n:"13", issue:"Single-page architecture",     fix:"Full multi-route portal architecture" },
-    { n:"14", issue:"HBCU tours undelivered",       fix:"Portal Tour Library + Live Q&A" },
-    { n:"15", issue:"Zero verified social proof",   fix:"Student Outcomes Showcase" },
+    { n:"01", severity:"CRITICAL", issue:"Free Wix subdomain",            fix:"Custom domain registration (k2kcollegeprepservices.com) + branded portal URL — custom domain setup is Phase 2, deliverable #1" },
+    { n:"02", severity:"CRITICAL", issue:"Lorem ipsum placeholder testimonials", fix:"Authenticated Testimonial Engine: post-session feedback form feeds verified, student-consented testimonials displayed on the public Success Stories page and portal outcomes showcase" },
+    { n:"03", severity:"HIGH",     issue:"Non-professional Gmail address", fix:"Google Workspace setup with branded domain email accounts (hello@, advisor@, info@k2kcollegeprepservices.com) — all client portal communications route through this system" },
+    { n:"04", severity:"HIGH",     issue:"No client portal or authenticated login", fix:"The entire portal build is the resolution to this issue — student-authenticated login portal with unique access codes per student, built per Blueprint 01" },
+    { n:"05", severity:"HIGH",     issue:"No progress or milestone tracking", fix:"Visual Milestone Tracker: 14-step HBCU journey roadmap, 5 phase markers, completion ring indicator, status badges per step, advisor-pushed notes — built per Blueprint 03" },
+    { n:"06", severity:"HIGH",     issue:"No alumni network delivery mechanism", fix:"Alumni Network Module: searchable directory (HBCU attended, graduation year, field, mentorship availability), mentorship request modal, My Mentors widget, Legacy Package access flag — built per Blueprint 06" },
+    { n:"07", severity:"MEDIUM",   issue:"About Us section truncated",    fix:"Dedicated About Page (public website): full founder story, professional bio, credentials and certifications, mission/values, team cards — no truncation possible in a proper multi-page architecture" },
+    { n:"08", severity:"MEDIUM",   issue:"Broken navigation link (Learn More → /pricing)", fix:"Multi-route architecture with proper URL mapping eliminates single-page navigation dependency entirely. Each section lives on its own dedicated route" },
+    { n:"09", severity:"MEDIUM",   issue:"Stock photography gallery with no K2K imagery", fix:"Authenticated portal media gallery (student success moments, HBCU tour photos); public Success Stories page features real student outcome cards — photography brief included in brand phase" },
+    { n:"10", severity:"MEDIUM",   issue:"No FAQ section",               fix:"Tiered FAQ system: public-facing FAQ page (pre-sale questions, process, refund policy, HBCU context) + client-only extended knowledge base gated inside the Resource Library" },
+    { n:"11", severity:"MEDIUM",   issue:"No blog or resource library",  fix:"Public Blog (CMS-powered, SEO-optimized, 3 seed articles from Axiom at launch) + Gated Resource Library (HBCU guides, scholarship databases, essay templates, financial aid checklists — filtered by package tier)" },
+    { n:"12", severity:"MEDIUM",   issue:"Basic Wix Bookings with no workflow", fix:"Integrated Scheduling & Session Center: calendar booking with automated email + SMS reminders, session archive with notes, Zoom/Meet link integration, past session history" },
+    { n:"13", severity:"MEDIUM",   issue:"Single-page non-scalable architecture", fix:"Full multi-route application architecture — each feature on its own route, fully extensible for new service lines, blog content, and portal modules" },
+    { n:"14", severity:"MEDIUM",   issue:"Virtual HBCU tours promised but undelivered", fix:"Portal-hosted Virtual HBCU Tour Library: video library organized by school, student notes and favorites saved to profile, live alumni Q&A session scheduler with Zoom/Meet integration" },
+    { n:"15", severity:"HIGH",     issue:"Zero verified social proof",   fix:"Student Outcomes Showcase: HBCU acceptance cards, scholarship amounts, stats banner ('X students helped, $Y in scholarships secured') with opt-in consent model; feeds from testimonial collection system" },
   ];
 
   const sitemapPublic = [
@@ -470,106 +470,61 @@ export default function K2KPartnerPortalPage() {
 
 
         {/* ═══════════════════════════════════════════════════
-            SECTION 4A — SITE AUDIT FINDINGS
+            SECTION 4 — SITE AUDIT & RECOMMENDATIONS
         ═══════════════════════════════════════════════════ */}
         <section className={`rounded-2xl ${t.border} bg-[#0D1B2A] text-[#FAF7F2] p-6 md:p-8`}>
 
-          <div className={`${t.smallMeta} text-[#E4B96A] mb-2`}>Site Audit — k2kcollegeprepservices.com</div>
+          <div className={`${t.smallMeta} text-[#E4B96A] mb-2`}>Site Audit & Recommendations — k2kcollegeprepservices.com</div>
           <h2 className={`${t.h2} mb-2`} style={t.serif}>
-            We audited your existing site. Here's what we found.
+            What we found — and what we'd build to address it.
           </h2>
           <p className={`${t.base} text-[#D6C9A8] mb-6 max-w-[640px]`}>
-            Before our intake consultation, Axiom conducted a full review of your existing Wix presence against 15 key credibility, functionality, and client-experience indicators. Every item below represents a gap that is actively costing you clients, trust, or revenue.
+            Before our intake consultation, Axiom conducted a full review of your existing Wix presence against 15 credibility, functionality, and client-experience indicators. Each finding is mapped to a proposed resolution. These are recommendations — not commitments. Final scope is determined by your selections.
           </p>
 
-          {/* Compact accordion list */}
+          {/* Consolidated accordion */}
           <div className="divide-y divide-white/8 border border-white/10 rounded-xl overflow-hidden">
-            {auditResolutions.map((r) => (
-              <div key={r.n}>
-                <button
-                  onClick={() => toggleFinding(r.n)}
-                  className="w-full flex items-center justify-between gap-4 px-4 py-3 text-left hover:bg-white/5 transition-colors"
-                >
-                  <div className="flex items-center gap-3 min-w-0">
-                    <span className={`${t.smallMeta} text-[#E4B96A] flex-shrink-0`}>{r.n}</span>
-                    <span className={`${t.base} font-medium text-[#FAF7F2] truncate`}>{r.issue}</span>
-                  </div>
-                  <svg
-                    width="12" height="12" viewBox="0 0 12 12" fill="none"
-                    className={`flex-shrink-0 text-[#E4B96A] transition-transform duration-200 ${expandedFinding === r.n ? 'rotate-180' : ''}`}
+            {auditResolutions.map((r) => {
+              const severityColor = r.severity === "CRITICAL"
+                ? "bg-[#7C3026] text-[#FAF7F2]"
+                : r.severity === "HIGH"
+                ? "bg-[#C9973A22] text-[#E4B96A] border border-[#C9973A55]"
+                : "bg-white/8 text-[#AAA]";
+              return (
+                <div key={r.n}>
+                  <button
+                    onClick={() => toggleFinding(r.n)}
+                    className="w-full flex items-center justify-between gap-4 px-4 py-3 text-left hover:bg-white/5 transition-colors"
                   >
-                    <path d="M2 4L6 8L10 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
-                </button>
-                {expandedFinding === r.n && (
-                  <div className="px-4 pb-3 pt-1 bg-white/5 border-t border-white/8">
-                    <p className={`${t.base} text-[#D6C9A8]`}>
-                      This gap is actively costing you clients, trust, or revenue. Unaddressed on the current site.
-                    </p>
-                  </div>
-                )}
-              </div>
-            ))}
+                    <div className="flex items-center gap-3 min-w-0">
+                      <span className={`${t.smallMeta} text-[#E4B96A] flex-shrink-0 w-6`}>{r.n}</span>
+                      <span className={`text-[9px] tracking-widest uppercase font-semibold px-2 py-[2px] rounded flex-shrink-0 ${severityColor}`}>
+                        {r.severity}
+                      </span>
+                      <span className={`${t.base} font-medium text-[#FAF7F2] truncate`}>{r.issue}</span>
+                    </div>
+                    <svg
+                      width="12" height="12" viewBox="0 0 12 12" fill="none"
+                      className={`flex-shrink-0 text-[#E4B96A] transition-transform duration-200 ${expandedFinding === r.n ? 'rotate-180' : ''}`}
+                    >
+                      <path d="M2 4L6 8L10 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  </button>
+                  {expandedFinding === r.n && (
+                    <div className="px-4 pb-4 pt-2 bg-white/5 border-t border-white/8">
+                      <div className={`${t.smallMeta} text-[#E4B96A] mb-2`}>Proposed Resolution</div>
+                      <p className={`${t.base} text-[#D6C9A8] leading-relaxed`}>{r.fix}</p>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
           </div>
 
           <div className="mt-5 pt-4 border-t border-white/10 flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-[#E4B96A]" />
             <span className={`${t.smallMeta} text-[#E4B96A]`}>
-              15 CRITICAL FINDINGS — NONE ADDRESSED ON THE CURRENT SITE
-            </span>
-          </div>
-
-        </section>
-
-
-        {/* ═══════════════════════════════════════════════════
-            SECTION 4B — RECOMMENDATIONS
-        ═══════════════════════════════════════════════════ */}
-        <section className={`rounded-2xl ${t.border} bg-white p-6 md:p-8`}>
-
-          <div className={`${t.smallMeta} text-[#C9973A] mb-2`}>Our Recommendations</div>
-          <h2 className={`${t.h2} text-[#0D1B2A] mb-2`} style={t.serif}>
-            Based on our intake discussion, here's what we'd build.
-          </h2>
-          <p className={`${t.base} text-[#555] mb-6 max-w-[640px]`}>
-            Every audit finding maps directly to a proposed deliverable. Tap any finding to see the recommendation. These are proposals — not commitments. What you actually build is up to you.
-          </p>
-
-          {/* Accordion */}
-          <div className={`divide-y divide-[#C9973A22] border ${t.border} rounded-xl overflow-hidden`}>
-            {auditResolutions.map((r) => (
-              <div key={r.n}>
-                <button
-                  onClick={() => toggleFinding(r.n)}
-                  className="w-full flex items-center justify-between gap-4 px-4 py-3 text-left hover:bg-[#FAF7F2] transition-colors"
-                >
-                  <div className="flex items-center gap-3 min-w-0">
-                    <span className={`${t.smallMeta} text-[#C9973A] flex-shrink-0`}>{r.n}</span>
-                    <span className={`${t.base} font-medium text-[#0D1B2A] truncate`}>{r.issue}</span>
-                  </div>
-                  <svg
-                    width="12" height="12" viewBox="0 0 12 12" fill="none"
-                    className={`flex-shrink-0 text-[#C9973A] transition-transform duration-200 ${expandedFinding === r.n ? 'rotate-180' : ''}`}
-                  >
-                    <path d="M2 4L6 8L10 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
-                </button>
-                {expandedFinding === r.n && (
-                  <div className="px-4 pb-4 pt-2 bg-[#FAF7F2] border-t border-[#C9973A22]">
-                    <div className={`${t.base} text-[#555] flex items-start gap-2`}>
-                      <span className="text-[#C9973A] flex-shrink-0 font-medium">→</span>
-                      <span>{r.fix}</span>
-                    </div>
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-
-          <div className="mt-5 pt-4 border-t border-[#EEE] flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-[#C9973A]" />
-            <span className={`${t.smallMeta} text-[#C9973A]`}>
-              15 FINDINGS · 15 PROPOSED SOLUTIONS — SCOPE PENDING YOUR SELECTION
+              15 FINDINGS · 15 PROPOSED RESOLUTIONS — SCOPE PENDING YOUR SELECTION
             </span>
           </div>
 
