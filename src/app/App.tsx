@@ -51,7 +51,7 @@ export default function App() {
         <Route path="/partners/nphc-hudson" element={<LockedClientPage name="NPHC of Hudson County" code="nphc" />} />
         <Route path="/partners/k2k" element={<LockedClientPage name="K2K College Prep Services" code="k2k" redirect="/partners/k2k/portal" />} />
         <Route path="/partners/k2k/portal" element={<K2KPage />} />
-        <Route path="/axiom-admin" element={<LockedClientPage name="Axiom Internal" code="axiomadmin" redirect="/axiom-admin/dashboard" />} />
+        <Route path="/axiom-admin" element={<LockedClientPage name="Axiom Internal" code="AdminAxiom8706" redirect="/axiom-admin/dashboard" />} />
         <Route path="/axiom-admin/dashboard" element={<AxiomAdminPage />} />
       </Routes>
       <Footer />
