@@ -395,33 +395,41 @@ export default function K2KPartnerPortalPage() {
   const savings     = fullTotal - grandTotal;
   const budgetPct   = Math.min(100, Math.round((grandTotal / fullTotal) * 100));
 
-  const welcomeSteps = [
+  const tourSteps = [
     {
-      n: "01",
+      id: "tour-header",
       label: "Your Engagement Overview",
-      body: "At the top you'll find your project stats — full scope value, timeline, phases, and current status. Think of it as your at-a-glance dashboard.",
+      body: "This is your home base. You'll see your project status, full scope value, timeline, and current phase — everything you need to know about where the engagement stands at a glance.",
     },
     {
-      n: "02",
+      id: "tour-audit",
       label: "Site Audit & Recommendations",
-      body: "We documented 15 specific gaps in your current Wix presence. Each one has a severity rating and Axiom's proposed recommendation for how we'd address it in the build.",
+      body: "Before our consultation, we reviewed your current Wix site against 15 credibility and functionality indicators. Each finding has a severity rating and Axiom's proposed recommendation for how we'd address it. Tap any row to expand it.",
     },
     {
-      n: "03",
-      label: "Platform Architecture",
-      body: "This section maps out every page, portal module, and admin view we'd build — so you can see exactly what the finished platform would look like before a single line of code is written.",
+      id: "tour-architecture",
+      label: "What We'd Build",
+      body: "This maps out every page, portal module, and admin view included in the full scope — your public website, the student-facing client portal, and the advisor admin dashboard. It's the blueprint before the build.",
     },
     {
-      n: "04",
-      label: "Budget & Scope Calculator",
-      body: "This is your custom scope tool. Every service line is itemized and optional (except Technical Infrastructure, which everything runs on). Select only what you need — your total updates in real time.",
+      id: "tour-budget",
+      label: "Your Budget & Scope Calculator",
+      body: "Every service is itemized here with its cost. Technical Infrastructure is the only required piece — everything else is optional. Toggle services on or off and the total updates in real time. We'll build your number together, so don't worry about the full figure.",
     },
     {
-      n: "05",
-      label: "Milestones & Next Steps",
-      body: "Your engagement milestones and payment schedule are outlined here. Nothing kicks off until your MSA and SOW are executed — we'll walk through those together.",
+      id: "tour-timeline",
+      label: "Implementation Timeline",
+      body: "Your 6-phase timeline lives here. Dates are TBD until your MSA and SOW are signed, but this shows you the full arc — from brand identity through launch. Nothing kicks off until we've aligned on scope.",
     },
   ];
+
+  const [tourStep, setTourStep] = useState(null);
+
+  useEffect(() => {
+    if (tourStep === null) return;
+    const el = document.getElementById(tourSteps[tourStep].id);
+    if (el) el.scrollIntoView({ behavior: "smooth", block: "center" });
+  }, [tourStep]);
 
   // ─────────────────────────────────────────────────────────
   return (
@@ -430,53 +438,85 @@ export default function K2KPartnerPortalPage() {
       {/* ── Welcome Modal ──────────────────────────────────── */}
       {showWelcome && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#0D1B2A]/80 backdrop-blur-sm">
-          <div className="relative w-full max-w-[560px] bg-[#FAF7F2] rounded-2xl shadow-2xl overflow-hidden">
-
-            {/* Gold top bar */}
+          <div className="relative w-full max-w-[480px] bg-[#FAF7F2] rounded-2xl shadow-2xl overflow-hidden">
             <div className="h-1 w-full bg-[#C9973A]" />
-
             <div className="p-7 md:p-9">
-              {/* Header */}
-              <div className={`${t.smallMeta} text-[#C9973A] mb-3`} style={t.sans}>
+              <div className={`${t.smallMeta} text-[#C9973A] mb-3`}>
                 Axiom Executive Advisory LLC · K2K College Prep Services
               </div>
-              <h2 className="text-[24px] md:text-[30px] leading-[1.2] font-semibold text-[#0D1B2A] mb-2" style={t.serif}>
+              <h2 className="text-[26px] md:text-[32px] leading-[1.15] font-semibold text-[#0D1B2A] mb-3" style={t.serif}>
                 Welcome to your client portal.
               </h2>
               <p className="text-[14px] leading-6 text-[#555] mb-6">
-                This is your dedicated space to review everything Axiom has prepared for you — from our site audit findings to your full proposed scope and budget. Here's a quick orientation so you know where to find everything.
+                Everything Axiom has prepared for you — your audit findings, the proposed platform, and your custom scope — is all here. Take a quick tour so you know exactly where to find everything.
               </p>
-
-              {/* Steps */}
-              <div className="space-y-3 mb-7">
-                {welcomeSteps.map((s) => (
-                  <div key={s.n} className="flex gap-4 items-start">
-                    <span className="flex-shrink-0 w-7 h-7 rounded-full bg-[#0D1B2A] text-[#E4B96A] text-[10px] tracking-widest font-semibold flex items-center justify-center">
-                      {s.n}
-                    </span>
-                    <div>
-                      <div className="text-[13px] font-semibold text-[#0D1B2A] leading-5">{s.label}</div>
-                      <div className="text-[13px] text-[#666] leading-5 mt-[2px]">{s.body}</div>
-                    </div>
-                  </div>
-                ))}
+              <div className="flex flex-col gap-3">
+                <button
+                  onClick={() => { dismissWelcome(); setTourStep(0); }}
+                  className="w-full py-3 rounded-xl bg-[#0D1B2A] text-[#FAF7F2] text-[13px] tracking-widest uppercase font-semibold hover:bg-[#1a2d42] transition-colors"
+                >
+                  Take the tour →
+                </button>
+                <button
+                  onClick={dismissWelcome}
+                  className="w-full py-2 text-[12px] text-[#888] hover:text-[#444] transition-colors"
+                >
+                  Skip — I'll explore on my own
+                </button>
               </div>
+            </div>
+          </div>
+        </div>
+      )}
 
-              {/* Note about pricing */}
-              <div className="rounded-xl bg-[#0D1B2A] text-[#FAF7F2] p-4 mb-6">
-                <div className={`${t.smallMeta} text-[#E4B96A] mb-1`}>A note on the numbers</div>
-                <p className="text-[13px] text-[#D6C9A8] leading-[1.6]">
-                  Don't let the total scope figure overwhelm you — it represents everything we could build. Not everything is required for where you are right now. We'll work through the budget calculator together and scope this to exactly what you need. Additional services can always be added later as K2K grows.
-                </p>
+      {/* ── Guided Tour Card ───────────────────────────────── */}
+      {tourStep !== null && (
+        <div className="fixed bottom-5 left-1/2 -translate-x-1/2 z-50 w-[calc(100%-32px)] max-w-[500px]">
+          <div className="bg-[#0D1B2A] text-[#FAF7F2] rounded-2xl shadow-2xl border border-[#C9973A44] overflow-hidden">
+            <div className="h-[3px] bg-[#C9973A]" style={{ width: `${((tourStep + 1) / tourSteps.length) * 100}%`, transition: "width 0.4s ease" }} />
+            <div className="p-5">
+              <div className="flex items-center justify-between mb-3">
+                <span className={`${t.smallMeta} text-[#E4B96A]`}>
+                  Step {tourStep + 1} of {tourSteps.length}
+                </span>
+                <button
+                  onClick={() => setTourStep(null)}
+                  className="text-[11px] text-[#666] hover:text-[#AAA] transition-colors uppercase tracking-widest"
+                >
+                  Exit tour
+                </button>
               </div>
-
-              {/* CTA */}
-              <button
-                onClick={dismissWelcome}
-                className="w-full py-3 rounded-xl bg-[#0D1B2A] text-[#FAF7F2] text-[13px] tracking-widest uppercase font-semibold hover:bg-[#1a2d42] transition-colors"
-              >
-                Got it — take me to the portal
-              </button>
+              <div className="text-[16px] font-semibold mb-1" style={t.serif}>
+                {tourSteps[tourStep].label}
+              </div>
+              <p className="text-[13px] text-[#D6C9A8] leading-relaxed mb-4">
+                {tourSteps[tourStep].body}
+              </p>
+              <div className="flex gap-2">
+                {tourStep > 0 && (
+                  <button
+                    onClick={() => setTourStep(p => p - 1)}
+                    className="flex-1 py-2 rounded-lg border border-white/20 text-[12px] text-[#D6C9A8] hover:bg-white/5 transition-colors"
+                  >
+                    ← Back
+                  </button>
+                )}
+                {tourStep < tourSteps.length - 1 ? (
+                  <button
+                    onClick={() => setTourStep(p => p + 1)}
+                    className="flex-1 py-2 rounded-lg bg-[#C9973A] text-white text-[12px] font-semibold hover:bg-[#b8882f] transition-colors"
+                  >
+                    Next →
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => setTourStep(null)}
+                    className="flex-1 py-2 rounded-lg bg-[#C9973A] text-white text-[12px] font-semibold hover:bg-[#b8882f] transition-colors"
+                  >
+                    Finish tour ✓
+                  </button>
+                )}
+              </div>
             </div>
           </div>
         </div>
@@ -488,7 +528,11 @@ export default function K2KPartnerPortalPage() {
         {/* ═══════════════════════════════════════════════════
             SECTION 1 — ENGAGEMENT HEADER
         ═══════════════════════════════════════════════════ */}
-        <section className={`rounded-2xl ${t.border} bg-[#0D1B2A] text-[#FAF7F2] p-8 md:p-10`}>
+        <section
+          id="tour-header"
+          className={`rounded-2xl ${t.border} bg-[#0D1B2A] text-[#FAF7F2] p-8 md:p-10 transition-shadow duration-300`}
+          style={tourStep !== null && tourSteps[tourStep].id === "tour-header" ? { boxShadow: "0 0 0 3px #C9973A, 0 0 0 8px #C9973A33" } : {}}
+        >
           <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-6">
 
             <div className="max-w-[780px]">
@@ -582,7 +626,11 @@ export default function K2KPartnerPortalPage() {
         {/* ═══════════════════════════════════════════════════
             SECTION 4 — SITE AUDIT & RECOMMENDATIONS
         ═══════════════════════════════════════════════════ */}
-        <section className={`rounded-2xl ${t.border} bg-[#0D1B2A] text-[#FAF7F2] p-6 md:p-8`}>
+        <section
+          id="tour-audit"
+          className={`rounded-2xl ${t.border} bg-[#0D1B2A] text-[#FAF7F2] p-6 md:p-8 transition-shadow duration-300`}
+          style={tourStep !== null && tourSteps[tourStep].id === "tour-audit" ? { boxShadow: "0 0 0 3px #C9973A, 0 0 0 8px #C9973A33" } : {}}
+        >
 
           <div className={`${t.smallMeta} text-[#E4B96A] mb-2`}>Site Audit & Recommendations — k2kcollegeprepservices.com</div>
           <h2 className={`${t.h2} mb-2`} style={t.serif}>
@@ -644,7 +692,11 @@ export default function K2KPartnerPortalPage() {
         {/* ═══════════════════════════════════════════════════
             SECTION 5 — PLATFORM SITEMAP / ARCHITECTURE
         ═══════════════════════════════════════════════════ */}
-        <section className={`rounded-2xl ${t.border} bg-[#F0E8D5] p-6 md:p-8`}>
+        <section
+          id="tour-architecture"
+          className={`rounded-2xl ${t.border} bg-[#F0E8D5] p-6 md:p-8 transition-shadow duration-300`}
+          style={tourStep !== null && tourSteps[tourStep].id === "tour-architecture" ? { boxShadow: "0 0 0 3px #C9973A, 0 0 0 8px #C9973A33" } : {}}
+        >
 
           <div className={`${t.smallMeta} text-[#7C3026] mb-2`}>Platform Architecture</div>
           <h2 className={`${t.h2} text-[#0D1B2A] mb-6`} style={t.serif}>
@@ -679,7 +731,11 @@ export default function K2KPartnerPortalPage() {
         {/* ═══════════════════════════════════════════════════
             SECTION 6 — IMPLEMENTATION TIMELINE
         ═══════════════════════════════════════════════════ */}
-        <section>
+        <section
+          id="tour-timeline"
+          className="transition-shadow duration-300 rounded-2xl"
+          style={tourStep !== null && tourSteps[tourStep].id === "tour-timeline" ? { boxShadow: "0 0 0 3px #C9973A, 0 0 0 8px #C9973A33" } : {}}
+        >
 
           <div className={`${t.smallMeta} text-[#C9973A] mb-2`}>Implementation Timeline</div>
           <h2 className={`${t.h2} text-[#0D1B2A] mb-6`} style={t.serif}>
@@ -770,7 +826,11 @@ export default function K2KPartnerPortalPage() {
         {/* ═══════════════════════════════════════════════════
             SECTION 8 — INTERACTIVE BUDGET CALCULATOR
         ═══════════════════════════════════════════════════ */}
-        <section className={`rounded-2xl ${t.border} bg-white p-6 md:p-8`}>
+        <section
+          id="tour-budget"
+          className={`rounded-2xl ${t.border} bg-white p-6 md:p-8 transition-shadow duration-300`}
+          style={tourStep !== null && tourSteps[tourStep].id === "tour-budget" ? { boxShadow: "0 0 0 3px #C9973A, 0 0 0 8px #C9973A33" } : {}}
+        >
 
           <div className={`${t.smallMeta} text-[#C9973A] mb-2`}>Step 3 of 3 — Your Decision</div>
           <h2 className={`${t.h2} text-[#0D1B2A] mb-2`} style={t.serif}>
