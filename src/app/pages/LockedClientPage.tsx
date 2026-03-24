@@ -18,6 +18,7 @@ export default function LockedClientPage({ name, code, redirect }: Props) {
     if (input.toLowerCase() === code.toLowerCase()) {
       setError(false);
       if (redirect) {
+        sessionStorage.setItem(`portal_auth_${redirect}`, "1");
         navigate(redirect);
       } else {
         alert("Access granted. Client portal coming soon.");

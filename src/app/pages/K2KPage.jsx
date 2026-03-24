@@ -89,12 +89,37 @@ export default function K2KPartnerPortalPage() {
     return slots;
   })();
 
+  // ── Deselection modal (shown once per service) ───────────
+  const [deselModal, setDeselModal] = useState(null); // { id, name, impact }
+  const [deselSeen, setDeselSeen] = useState(() => {
+    try { return new Set(JSON.parse(localStorage.getItem("k2k_desel_seen") || "[]")); }
+    catch { return new Set(); }
+  });
+
   const toggleService = (id) => {
+    const isRemoving = selectedIds.has(id);
+    if (isRemoving && !deselSeen.has(id)) {
+      const svc = services.find(s => s.id === id);
+      setDeselModal({ id, name: svc.name, impact: svc.deselImpact });
+      return; // wait for modal confirmation
+    }
     setSelectedIds(prev => {
       const next = new Set(prev);
       if (next.has(id)) next.delete(id); else next.add(id);
       return next;
     });
+  };
+
+  const confirmDesel = () => {
+    const id = deselModal.id;
+    const next = new Set(selectedIds);
+    next.delete(id);
+    setSelectedIds(next);
+    const seen = new Set(deselSeen);
+    seen.add(id);
+    setDeselSeen(seen);
+    localStorage.setItem("k2k_desel_seen", JSON.stringify([...seen]));
+    setDeselModal(null);
   };
 
   const toggleExpand = (id) =>
@@ -296,6 +321,15 @@ export default function K2KPartnerPortalPage() {
       tag: 'REQUIRED',
       tagStyle: 'bg-[#0D1B2A] text-[#E4B96A]',
       summary: 'Non-negotiable foundation. The entire platform runs on this layer.',
+      deselImpact: null,
+      lineItems: [
+        { label: 'Custom domain registration + DNS (k2kcollegeprepservices.com, 1 yr)', cost: 50 },
+        { label: 'Vercel hosting — staging + production environments, CI/CD pipeline', cost: 200 },
+        { label: 'Supabase (PostgreSQL) database schema design + initialization', cost: 300 },
+        { label: 'Authentication system — access code model per student', cost: 350 },
+        { label: 'Google Workspace — up to 5 branded email accounts', cost: 300 },
+        { label: 'File storage architecture (Supabase Storage) for Document Vault', cost: 300 },
+      ],
       details: [
         'Custom domain registration + full DNS configuration',
         'Production hosting setup (Vercel — enterprise grade)',
@@ -313,12 +347,20 @@ export default function K2KPartnerPortalPage() {
       tag: 'OPTIONAL',
       tagStyle: 'bg-[#EEE] text-[#666]',
       summary: 'Full visual identity — how K2K looks to the world.',
+      deselImpact: 'Without a brand identity system, your website and portal will launch without a defined logo, color palette, or visual language. This means generic typography, inconsistent presentation, and no brand book for future use. A $1,500 service charging families deserves a brand that reflects that.',
       details: [
         'Primary logo + alternate mark (light + dark versions)',
         'Brand style guide (colors, typography, spacing rules)',
         'Favicon + browser icon set',
         'Professional email signature template',
         'Brand book PDF delivered for internal/investor use',
+      ],
+      lineItems: [
+        { label: 'Logo design — 2–3 concepts, 1 final direction', cost: 800 },
+        { label: 'Brand style guide (colors, type, spacing, rules)', cost: 500 },
+        { label: 'Favicon + browser/mobile icon set', cost: 150 },
+        { label: 'Email signature template (all accounts)', cost: 200 },
+        { label: 'Brand book PDF for internal/investor use', cost: 350 },
       ],
     },
     {
@@ -329,12 +371,23 @@ export default function K2KPartnerPortalPage() {
       tag: 'OPTIONAL',
       tagStyle: 'bg-[#EEE] text-[#666]',
       summary: 'The public face of K2K. How students, parents, and partners find you.',
+      deselImpact: 'Removing the website means K2K has no public-facing presence beyond the portal login. No SEO, no discovery, no trust-building for prospective families. Parents researching a $1,500 service need to find you and vet you before they ever sign up.',
       details: [
         'Home, About, Services (4 tiers), Success Stories, Blog, FAQ, Contact',
         'Fully mobile-responsive across all devices and screen sizes',
         'SEO-optimized page structure + metadata',
         'Contact form with Formspree routing to your inbox',
         '3 seed blog articles written and published at launch',
+      ],
+      lineItems: [
+        { label: 'Home page (hero, stats bar, services preview, CTAs)', cost: 800 },
+        { label: 'About page (founder story, bio, credentials, mission)', cost: 400 },
+        { label: 'Services page (4 tiers, comparison table, add-ons)', cost: 500 },
+        { label: 'Success Stories page (testimonial carousel, outcome cards)', cost: 500 },
+        { label: 'Blog — CMS setup + 3 Axiom-written SEO seed articles', cost: 700 },
+        { label: 'FAQ page — accordion style, pre-sale + process questions', cost: 350 },
+        { label: 'Contact page — form, calendar embed, auto-confirmation email', cost: 450 },
+        { label: 'Mobile responsiveness, SEO structure, sitemap', cost: 800 },
       ],
     },
     {
@@ -345,6 +398,7 @@ export default function K2KPartnerPortalPage() {
       tag: 'OPTIONAL',
       tagStyle: 'bg-[#EEE] text-[#666]',
       summary: 'The authenticated student experience — K2K\'s core product differentiator.',
+      deselImpact: 'The portal is the product K2K is selling. Without it, students have no secure login, no milestone tracking, no document vault, and no way to experience the service they paid $750–$1,500 for. This is the primary deliverable that separates K2K from a basic Wix site.',
       details: [
         'Student login with access-code authentication',
         'Student dashboard (progress ring, package tier, session countdown)',
@@ -355,6 +409,16 @@ export default function K2KPartnerPortalPage() {
         'Gated Resource Library with tier-based access control',
         'HBCU Virtual Tour Library + Live Q&A Scheduler',
       ],
+      lineItems: [
+        { label: 'Login page — split-screen, access code auth (Blueprint 01)', cost: 600 },
+        { label: 'Student dashboard — progress ring, tier card, sessions (Blueprint 02)', cost: 900 },
+        { label: 'Milestone Tracker — 14 steps, 5 phases, advisor notes (Blueprint 03)', cost: 1000 },
+        { label: 'Document Vault — upload, annotation, version history (Blueprint 04)', cost: 1200 },
+        { label: 'Scheduling & Session Center — booking, reminders, Zoom links', cost: 1100 },
+        { label: 'Resource Library — tier-gated content, category filters (Blueprint 05)', cost: 900 },
+        { label: 'Alumni Network Module — directory, mentorship requests (Blueprint 06)', cost: 900 },
+        { label: 'Virtual HBCU Tour Library — video grid, favorites, Q&A scheduler', cost: 900 },
+      ],
     },
     {
       id: 'admin',
@@ -364,12 +428,20 @@ export default function K2KPartnerPortalPage() {
       tag: 'OPTIONAL',
       tagStyle: 'bg-[#EEE] text-[#666]',
       summary: 'Advisor-only control center for managing every client in one place.',
+      deselImpact: 'Without the admin dashboard you\'d manage every student manually — no unified view, no document review queue, no session calendar. As your student count grows this becomes unmanageable. This is what allows you to scale without adding staff.',
       details: [
         'Student management — all active clients visible at a glance',
         'Document queue — review, annotate, and approve client uploads',
         'Session calendar + KPI statistics overview',
         'Testimonial review + approval workflow',
         'Student progress visibility across all accounts',
+      ],
+      lineItems: [
+        { label: 'KPI stats row (active students, sessions, documents, progress)', cost: 400 },
+        { label: 'Student management table — view, message, schedule per student', cost: 600 },
+        { label: 'Document review queue — review, annotate, approve uploads', cost: 400 },
+        { label: 'Session calendar widget + today\'s schedule view', cost: 350 },
+        { label: 'Quick message widget + Add New Student workflow', cost: 250 },
       ],
     },
     {
@@ -380,6 +452,7 @@ export default function K2KPartnerPortalPage() {
       tag: 'OPTIONAL',
       tagStyle: 'bg-[#EEE] text-[#666]',
       summary: 'Ensures everything built is production-ready before it goes live.',
+      deselImpact: 'Skipping QA means going live without verified cross-browser testing, security checks, or a structured UAT window. Issues found by your first real students reflect directly on the service. QA is the difference between a professional launch and an embarrassing one.',
       details: [
         'Cross-browser + device compatibility testing',
         'Authentication flow + security testing',
@@ -387,6 +460,14 @@ export default function K2KPartnerPortalPage() {
         'Bug resolution and performance optimization',
         'Production go-live + 301 redirect configuration',
         'Google Analytics + Search Console setup',
+      ],
+      lineItems: [
+        { label: 'Cross-browser + device testing (Chrome, Safari, Firefox; iOS + Android)', cost: 400 },
+        { label: 'Auth + access control security testing', cost: 300 },
+        { label: 'Client UAT window + structured review form', cost: 200 },
+        { label: 'Production deployment + 301 redirects from Wix URL', cost: 250 },
+        { label: 'Google Analytics 4 + Search Console setup + sitemap submission', cost: 200 },
+        { label: 'SSL verification, HTTPS enforcement, post-launch check', cost: 150 },
       ],
     },
     {
@@ -397,12 +478,20 @@ export default function K2KPartnerPortalPage() {
       tag: 'OPTIONAL',
       tagStyle: 'bg-[#EEE] text-[#666]',
       summary: '30 days of hands-on support after the platform goes live.',
+      deselImpact: 'Without post-launch support, any bugs or issues that surface after go-live fall on you to identify and communicate without a dedicated response window. The first 30 days after launch are typically the highest-activity period — students onboarding, parents logging in, content being added.',
       details: [
         '30-day bug fix window after production launch',
         'Up to 3 content update requests included',
         'Emergency support response within 24 hours',
         'Admin handoff training session for advisor',
         'Handoff documentation package for internal reference',
+      ],
+      lineItems: [
+        { label: '30-day bug fix window — reported bugs resolved at no extra charge', cost: 350 },
+        { label: 'Up to 3 content update requests (copy, images, layout tweaks)', cost: 150 },
+        { label: 'Emergency support — 24-hour response SLA for critical issues', cost: 100 },
+        { label: 'Admin handoff training session (1-hour video walkthrough)', cost: 100 },
+        { label: 'Handoff documentation package for internal reference', cost: 50 },
       ],
     },
     {
@@ -413,6 +502,8 @@ export default function K2KPartnerPortalPage() {
       tag: 'PRO-RATED',
       tagStyle: 'bg-[#C9973A22] text-[#C9973A] border border-[#C9973A44]',
       summary: 'Mandatory oversight fee. Scales proportionally with your selected scope.',
+      deselImpact: null,
+      lineItems: [],
       details: [
         'Dedicated project manager for the full engagement',
         'Weekly progress reports + milestone tracking',
@@ -500,6 +591,38 @@ export default function K2KPartnerPortalPage() {
   // ─────────────────────────────────────────────────────────
   return (
     <div className="min-h-screen bg-[#FAF7F2] text-[#2A2A2A]" style={t.sans}>
+
+      {/* ── Deselection Warning Modal ──────────────────────── */}
+      {deselModal && (
+        <div className="fixed inset-0 z-[60] flex items-end sm:items-center justify-center p-4 bg-[#0D1B2A]/70 backdrop-blur-sm">
+          <div className="w-full max-w-[420px] bg-white rounded-2xl shadow-2xl overflow-hidden">
+            <div className="h-1 w-full bg-[#C9973A]" />
+            <div className="p-6">
+              <p className={`${t.smallMeta} text-[#C9973A] mb-2`}>Before you remove this</p>
+              <h3 className="text-[17px] font-semibold text-[#0D1B2A] mb-3" style={t.serif}>
+                {deselModal.name}
+              </h3>
+              <p className="text-[13px] leading-6 text-[#555] mb-5">
+                {deselModal.impact}
+              </p>
+              <div className="flex gap-3">
+                <button
+                  onClick={() => setDeselModal(null)}
+                  className="flex-1 py-2.5 rounded-xl border border-[#DDD] text-[#555] text-[12px] font-medium hover:border-[#C9973A] hover:text-[#C9973A] transition-colors"
+                >
+                  Keep it
+                </button>
+                <button
+                  onClick={confirmDesel}
+                  className="flex-1 py-2.5 rounded-xl bg-[#0D1B2A] text-[#FAF7F2] text-[12px] font-medium hover:bg-[#1a2d42] transition-colors"
+                >
+                  Remove anyway
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* ── Welcome Modal ──────────────────────────────────── */}
       {showWelcome && (
@@ -1010,18 +1133,31 @@ export default function K2KPartnerPortalPage() {
                     {/* Drill-down details */}
                     {isExpanded && (
                       <div className="px-4 pb-4 border-t border-[#EEE]">
-                        <p className={`${t.smallMeta} text-[#C9973A] mt-3 mb-2`}>What's included</p>
-                        <ul className="space-y-1">
-                          {svc.details.map((d, i) => (
-                            <li key={i} className={`${t.base} text-[#555] flex items-start gap-2`}>
-                              <span className="text-[#C9973A] flex-shrink-0 mt-[2px]">·</span>
-                              <span>{d}</span>
-                            </li>
-                          ))}
-                        </ul>
+                        {/* Line item cost breakdown */}
+                        {svc.lineItems && svc.lineItems.length > 0 && (
+                          <div className="mt-3 mb-3">
+                            <p className={`${t.smallMeta} text-[#C9973A] mb-2`}>Cost breakdown</p>
+                            <div className="divide-y divide-[#F0EAE0] border border-[#EDE5D8] rounded-xl overflow-hidden">
+                              {svc.lineItems.map((item, i) => (
+                                <div key={i} className="flex items-center justify-between gap-3 px-3 py-2.5 bg-white">
+                                  <span className="text-[12px] text-[#555] leading-snug flex-1">{item.label}</span>
+                                  <span className="text-[12px] font-semibold text-[#0D1B2A] flex-shrink-0 tabular-nums">
+                                    {fmt(item.cost)}
+                                  </span>
+                                </div>
+                              ))}
+                              <div className="flex items-center justify-between px-3 py-2.5 bg-[#FAF7F2]">
+                                <span className={`${t.smallMeta} text-[#888]`}>Total</span>
+                                <span className="text-[13px] font-bold text-[#C9973A] tabular-nums">
+                                  {fmt(svc.proRated ? proRatedPM : svc.cost)}
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        )}
                         {svc.proRated && (
-                          <p className="text-[11px] text-[#AAA] mt-3 italic">
-                            Pro-rated formula: (selected optional scope ÷ full optional scope) × $1,000 base fee. Minimum $300.
+                          <p className="text-[11px] text-[#AAA] mt-2 mb-2 italic">
+                            Pro-rated: scales with your selected scope. Minimum $300, maximum $1,000.
                           </p>
                         )}
                       </div>
