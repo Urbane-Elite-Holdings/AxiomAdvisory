@@ -61,6 +61,11 @@ const services = [
     name: "AI Governance & Compliance",
     desc: "Responsible AI adoption policies, risk controls, and compliance structures aligned with emerging regulatory standards.",
   },
+  {
+    num: "13",
+    name: "Small Business AI Starter",
+    desc: "Practical AI implementation for local and neighborhood businesses that need creative solutions, tool selection, and process improvements without enterprise overhead.",
+  },
 ];
 
 function useInView(threshold = 0.1) {

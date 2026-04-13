@@ -7,6 +7,7 @@ export function Footer() {
     { label: "Home", path: "/" },
     { label: "About", path: "/about" },
     { label: "Architecture", path: "/architecture" },
+    { label: "AI Audit", path: "/contact" },
     { label: "Brand Tool", path: "/brand-tool" },
     { label: "For Our Partners", path: "/partners" },
   ];

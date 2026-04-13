@@ -2,6 +2,8 @@ import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router";
 import { Lock, ArrowRight, ChevronRight, ChevronLeft } from "lucide-react";
 import { BrandDecisionTool, type BrandBriefPayload } from "../components/BrandDecisionTool";
+import { QuickAuditCapture } from "../components/QuickAuditCapture";
+import { scrollToSection } from "../lib/marketing";
 
 // ── Carousel slides — each simulates a screen inside the Brand Decision Tool ──
 const slides = [
@@ -282,6 +284,22 @@ export default function BrandToolPage() {
             make your selections, and we execute. No ambiguity. No back-and-forth.
             Just a clear brief and a clear path forward.
           </p>
+          <div className="flex flex-wrap gap-3 pt-2">
+            <button
+              onClick={() => scrollToSection("brand-tool-audit")}
+              className="px-5 py-3 bg-[#D4AF37] text-[#0A0A0A] hover:bg-[#c9a22f] transition-colors"
+              style={{ fontFamily: "'Barlow', sans-serif", fontSize: "0.8rem", fontWeight: 700, letterSpacing: "0.05em", textTransform: "uppercase" }}
+            >
+              Need a Workflow Audit?
+            </button>
+            <button
+              onClick={() => navigate("/architecture")}
+              className="px-5 py-3 border border-white/15 text-white/75 hover:border-[#D4AF37]/70 hover:text-[#D4AF37] transition-colors"
+              style={{ fontFamily: "'Barlow', sans-serif", fontSize: "0.8rem", fontWeight: 600, letterSpacing: "0.05em", textTransform: "uppercase" }}
+            >
+              Explore Architecture
+            </button>
+          </div>
         </div>
       </div>
 
@@ -530,6 +548,13 @@ export default function BrandToolPage() {
           </button>
         </div>
       </div>
+
+      <QuickAuditCapture
+        sectionId="brand-tool-audit"
+        source="brand-tool-quick-audit"
+        title="Need help implementing AI before you ever need the Brand Tool?"
+        subtitle="This is for small businesses, local service companies, and founders who know they need better systems first. Send the workflow problem and we will map the first practical AI solution."
+      />
 
       <style>{`
         @keyframes shake {

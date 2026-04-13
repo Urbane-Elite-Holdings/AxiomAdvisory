@@ -20,7 +20,13 @@ const pillars = [
   { label: "Accountability", desc: "We are measured by outcomes, not deliverables. If the work does not move the needle, it does not leave our desk." },
 ];
 
-const founderCredentials = ["PMP", "CCOS", "CFE", "EMBA", "16+ years Fortune 500 operations"];
+const founderCredentials = [
+  { label: "PMP", tooltip: "Project Management Professional" },
+  { label: "CCOS", tooltip: "Certified Chief of Staff" },
+  { label: "CFE", tooltip: "Certified Fraud Examiner" },
+  { label: "EMBA", tooltip: "Executive Master of Business Administration" },
+  { label: "16+ years Fortune 500 operations" },
+];
 
 export function About() {
   const { ref, inView } = useInView();
@@ -84,13 +90,38 @@ export function About() {
                 </p>
                 <div className="flex flex-wrap gap-2">
                   {founderCredentials.map((credential) => (
-                    <span
-                      key={credential}
-                      className="px-2.5 py-1 border border-[#D4AF37]/45 text-[#0A0A0A]"
-                      style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.6rem", letterSpacing: "0.08em", textTransform: "uppercase" }}
-                    >
-                      {credential}
-                    </span>
+                    credential.tooltip ? (
+                      <span
+                        key={credential.label}
+                        className="relative group px-2.5 py-1 border border-[#D4AF37]/45 text-[#0A0A0A] cursor-help"
+                        style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.6rem", letterSpacing: "0.08em", textTransform: "uppercase" }}
+                        tabIndex={0}
+                        title={credential.tooltip}
+                        aria-label={`${credential.label}: ${credential.tooltip}`}
+                      >
+                        {credential.label}
+                        <span
+                          className="pointer-events-none absolute left-1/2 top-full z-10 mt-2 w-max max-w-[220px] -translate-x-1/2 rounded-sm border border-[#D4AF37]/35 bg-[#0A0A0A] px-3 py-2 text-center text-white opacity-0 shadow-[0_12px_30px_rgba(0,0,0,0.28)] transition-opacity duration-200 group-hover:opacity-100 group-focus:opacity-100"
+                          style={{
+                            fontFamily: "'Barlow', sans-serif",
+                            fontSize: "0.72rem",
+                            letterSpacing: "0.02em",
+                            lineHeight: 1.5,
+                            textTransform: "none",
+                          }}
+                        >
+                          {credential.tooltip}
+                        </span>
+                      </span>
+                    ) : (
+                      <span
+                        key={credential.label}
+                        className="px-2.5 py-1 border border-[#D4AF37]/45 text-[#0A0A0A]"
+                        style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.6rem", letterSpacing: "0.08em", textTransform: "uppercase" }}
+                      >
+                        {credential.label}
+                      </span>
+                    )
                   ))}
                 </div>
               </div>

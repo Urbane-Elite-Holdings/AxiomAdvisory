@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, useLocation } from "react-router";
+import { navigateToAudit } from "../lib/marketing";
 
 const logoUrl = "https://pub-d271817665684c82ae385a9c153ff8fa.r2.dev/logo.gif";
 
@@ -40,7 +41,7 @@ export function Navbar() {
     { label: "Home", path: "/" },
     { label: "About", path: "/about" },
     { label: "Architecture", path: "/architecture" },
-    { label: "Brand Tool", path: "/brand-tool" },
+    { label: "AI Audit", path: "/contact" },
     { label: "For Our Partners", path: "/partners" },
   ];
 
@@ -140,7 +141,7 @@ export function Navbar() {
               );
             })}
             <button
-              onClick={() => { window.location.href = "mailto:engage@axiomadvisorypartners.co"; }}
+              onClick={() => navigateToAudit(navigate, location.pathname)}
               className="group relative px-3 py-1.5 font-semibold overflow-hidden transition-all duration-300"
               style={{
                 fontFamily: "'Barlow', sans-serif",
@@ -178,7 +179,7 @@ export function Navbar() {
               letterSpacing: "0.08em",
               textTransform: "uppercase" as const,
             }}
-            onClick={() => { window.location.href = "mailto:engage@axiomadvisorypartners.co"; }}
+            onClick={() => navigateToAudit(navigate, location.pathname)}
           >
             Engage
           </button>

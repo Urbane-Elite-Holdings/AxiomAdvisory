@@ -10,31 +10,31 @@ const testimonies: Testimony[] = [
   {
     quote:
       "Axiom brought executive-level structure into a chaotic phase and gave us a decision cadence we could finally trust.",
-    author: "Founder, Consumer Venture (Anonymized)",
+    author: "Founder, Consumer Venture",
     rating: 4.8,
   },
   {
     quote:
       "We needed speed without cutting corners. Their operating model made our leadership team sharper within weeks.",
-    author: "COO, Multi-State Services Group (Anonymized)",
+    author: "COO, Multi-State Services Group",
     rating: 5.0,
   },
   {
     quote:
       "The Brand Decision Studio helped us stop spinning and commit to a clear go-to-market direction.",
-    author: "Managing Partner, Growth Portfolio (Anonymized)",
+    author: "Managing Partner, Growth Portfolio",
     rating: 4.7,
   },
   {
     quote:
       "Discreet, precise, and outcomes-first. They executed like an embedded chief of staff with board-level judgment.",
-    author: "Executive Director, Mission-Led Organization (Anonymized)",
+    author: "Executive Director, Mission-Led Organization",
     rating: 4.9,
   },
   {
     quote:
       "From governance cleanup to executive communications, every recommendation translated directly into action.",
-    author: "President, Regional Enterprise (Anonymized)",
+    author: "President, Regional Enterprise",
     rating: 4.6,
   },
 ];

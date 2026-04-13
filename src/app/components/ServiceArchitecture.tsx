@@ -1,3 +1,5 @@
+import { useNavigate } from "react-router";
+
 type ServiceArchitectureItem = {
   num: string;
   title: string;
@@ -183,6 +185,20 @@ const serviceArchitecture: ServiceArchitectureItem[] = [
     ],
     engagementTypes: "Point-in-time assessment, ongoing risk advisory, ERM buildout",
   },
+  {
+    num: "13",
+    title: "Small Business AI Enablement",
+    strapline: "Practical AI for Teams That Need a Starting Point",
+    description:
+      "Helps neighborhood and owner-led businesses identify simple AI use cases, select the right tools, and improve repetitive processes without enterprise complexity.",
+    deliverables: [
+      "AI opportunity mapping across scheduling, inboxes, customer follow-up, and internal admin",
+      "Tool selection and implementation guidance sized for small-business budgets and staffing",
+      "Creative workflow ideas for marketing, content, review capture, and customer communication",
+      "Process cleanup recommendations that make automation usable day to day",
+    ],
+    engagementTypes: "Starter sprint, implementation setup, monthly optimization support",
+  },
 ];
 
 const engagementModels: EngagementModel[] = [
@@ -246,7 +262,40 @@ const proofPoints = [
   "Integrated brand, governance, and operations architecture built for sustained execution, not one-off deliverables",
 ];
 
+const industryTracks = [
+  {
+    title: "AI Automation for Real Estate Teams",
+    description: "Stop losing leads to slow follow-up with instant reply, qualification, routing, and showing-booking systems for brokerages and high-touch sales teams.",
+    href: "/contact?offer=leadflow&sector=real-estate",
+  },
+  {
+    title: "AI Automation for Design Firms",
+    description: "Convert project inquiries without chasing every email using consult scheduling, scope-fit filters, and proposal follow-up systems.",
+    href: "/contact?offer=leadflow&sector=design",
+  },
+  {
+    title: "AI Automation for Service Businesses",
+    description: "Recover missed calls before the job goes cold with dispatch-ready routing, estimate follow-up, and no-show prevention.",
+    href: "/contact?offer=leadflow&sector=service",
+  },
+  {
+    title: "AI Solutions for Neighborhood Businesses",
+    description: "Use practical AI, creative process fixes, and simple admin automation when you know the business could run smarter but do not know what to change first.",
+    href: "/contact?offer=leadflow&sector=neighborhood",
+  },
+];
+
+const leadFlowFocus = [
+  "Missed call -> text/email reply -> booking",
+  "New lead -> qualification -> owner assignment",
+  "CRM update -> follow-up cadence -> escalation",
+  "Neighborhood business admin -> scheduling -> review request automation",
+  "Executive dashboard for response-time leakage",
+];
+
 export function ServiceArchitecture() {
+  const navigate = useNavigate();
+
   return (
     <section id="architecture" className="bg-[#0A0A0A] py-24 lg:py-32">
       <div className="max-w-[1440px] mx-auto px-6 lg:px-12">
@@ -270,9 +319,106 @@ export function ServiceArchitecture() {
 
         <div className="border border-[#D4AF37]/25 bg-[#111111] px-6 py-8 lg:px-10 mb-12">
           <p className="text-white/85 max-w-4xl" style={{ fontFamily: "'Barlow', sans-serif", fontSize: "1rem", lineHeight: 1.9 }}>
-            Axiom Executive Advisory delivers operational intelligence, governance infrastructure, and strategic leadership without the overhead of
-            permanent executive hires. We operate at the intersection of structure and execution.
+            Axiom Executive Advisory delivers operational intelligence, governance
+            infrastructure, and AI workflow automation without the overhead of
+            permanent executive hires. We operate at the intersection of structure,
+            execution, and lead-flow discipline, then translate that rigor for
+            owner-led businesses running on phones, inboxes, calendars, and lean teams.
           </p>
+        </div>
+
+        <div className="grid grid-cols-1 xl:grid-cols-12 gap-6 mb-14">
+          <div className="xl:col-span-7 border border-white/15 bg-[#111111] p-6 lg:p-8">
+            <p
+              className="text-[#D4AF37] mb-3"
+              style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.6875rem", letterSpacing: "0.14em", textTransform: "uppercase" }}
+            >
+              Niche Selector
+            </p>
+            <h3 className="text-white mb-3" style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.7rem", fontWeight: 400 }}>
+              Choose the workflow that needs fixing first.
+            </h3>
+            <p className="text-white/72 max-w-3xl" style={{ fontFamily: "'Barlow', sans-serif", fontSize: "0.95rem", lineHeight: 1.85 }}>
+              Explore Architecture now routes through the operating context that matters:
+              real estate, design, service delivery, or neighborhood business operations.
+              Start with the lead path or the process bottleneck, then move to the right audit and build sequence.
+            </p>
+
+            <div className="mt-7 divide-y divide-white/10 border-t border-white/10">
+              {industryTracks.map((track) => (
+                <button
+                  key={track.title}
+                  onClick={() => navigate(track.href)}
+                  className="w-full py-5 text-left flex flex-col gap-2 hover:text-[#D4AF37] transition-colors"
+                >
+                  <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-3">
+                    <div>
+                      <p className="text-white" style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.15rem", fontWeight: 500 }}>
+                        {track.title}
+                      </p>
+                      <p className="text-white/68 mt-1" style={{ fontFamily: "'Barlow', sans-serif", fontSize: "0.88rem", lineHeight: 1.8 }}>
+                        {track.description}
+                      </p>
+                    </div>
+                    <span
+                      className="text-[#D4AF37] shrink-0"
+                      style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.65rem", letterSpacing: "0.08em", textTransform: "uppercase" }}
+                    >
+                      Request Audit
+                    </span>
+                  </div>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="xl:col-span-5 border border-[#D4AF37]/25 bg-[#111111] p-6 lg:p-8">
+            <p
+              className="text-[#D4AF37] mb-3"
+              style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.6875rem", letterSpacing: "0.14em", textTransform: "uppercase" }}
+            >
+              Entry Offer
+            </p>
+            <h3 className="text-white mb-3" style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.7rem", fontWeight: 400 }}>
+              LeadFlow AI Audit + Setup
+            </h3>
+            <p className="text-white/72" style={{ fontFamily: "'Barlow', sans-serif", fontSize: "0.95rem", lineHeight: 1.85 }}>
+              Two-week diagnostic and first-build engagement for teams losing revenue to slow lead response, weak routing, inconsistent follow-up, or repetitive small-business admin. No enterprise stack required.
+            </p>
+            <div className="grid grid-cols-2 gap-4 mt-6 pt-6 border-t border-white/10">
+              <div>
+                <p className="text-white/40 mb-1" style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.6rem", letterSpacing: "0.08em", textTransform: "uppercase" }}>
+                  Timeline
+                </p>
+                <p className="text-white" style={{ fontFamily: "'Barlow', sans-serif", fontSize: "0.96rem", fontWeight: 600 }}>2 weeks</p>
+              </div>
+              <div>
+                <p className="text-white/40 mb-1" style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.6rem", letterSpacing: "0.08em", textTransform: "uppercase" }}>
+                  Pricing
+                </p>
+                <p className="text-white" style={{ fontFamily: "'Barlow', sans-serif", fontSize: "0.96rem", fontWeight: 600 }}>$2,500 + $500/mo</p>
+              </div>
+            </div>
+            <ul className="mt-6 space-y-2.5">
+              {leadFlowFocus.map((item) => (
+                <li
+                  key={item}
+                  className="text-white/72 pl-4 relative"
+                  style={{ fontFamily: "'Barlow', sans-serif", fontSize: "0.84rem", lineHeight: 1.72 }}
+                >
+                  <span className="absolute left-0 top-2.5 w-1.5 h-1.5 rounded-full bg-[#D4AF37]/80" />
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <button
+              onClick={() => navigate("/contact?offer=leadflow")}
+              className="mt-7 px-6 py-3.5 bg-[#D4AF37] text-[#0A0A0A] hover:bg-[#c9a22f] transition-colors"
+              style={{ fontFamily: "'Barlow', sans-serif", fontSize: "0.84rem", fontWeight: 700, letterSpacing: "0.05em", textTransform: "uppercase" }}
+            >
+              Request Workflow Audit
+            </button>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">

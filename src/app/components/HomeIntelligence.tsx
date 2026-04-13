@@ -1,11 +1,6 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router";
-
-type FeedSource = {
-  name: string;
-  topic: string;
-  url: string;
-};
+import { useLocation, useNavigate } from "react-router";
+import { navigateToAudit } from "../lib/marketing";
 
 type FeedItem = {
   title: string;
@@ -14,12 +9,6 @@ type FeedItem = {
   source: string;
   topic: string;
 };
-
-const rssSources: FeedSource[] = [
-  { name: "OpenAI", topic: "AI", url: "https://openai.com/news/rss.xml" },
-  { name: "MIT Sloan", topic: "Strategy", url: "https://mitsloan.mit.edu/feed" },
-  { name: "HubSpot", topic: "Branding", url: "https://blog.hubspot.com/marketing/rss.xml" },
-];
 
 const fallbackItems: FeedItem[] = [
   {
@@ -46,11 +35,11 @@ const fallbackItems: FeedItem[] = [
 ];
 
 const facts = [
-  "Brands with clear positioning frameworks are more likely to maintain pricing power during market volatility.",
+  "Manual lead response usually breaks first at nights, weekends, and ownership handoffs.",
   "Teams with documented decision rights can cut rework by reducing approval bottlenecks and duplicate effort.",
-  "High-growth organizations often fail from operational lag, not idea scarcity.",
-  "AI adoption without governance usually increases risk faster than it increases value.",
-  "Most brand confusion starts internally before it appears in the market.",
+  "High-growth organizations often stall from operational lag, not idea scarcity.",
+  "AI adoption creates value only when routing, escalation, and accountability are explicit.",
+  "Premium brands lose revenue when the experience after first inquiry feels slow or improvised.",
 ];
 
 const formatDate = (input: string) => {
@@ -59,74 +48,12 @@ const formatDate = (input: string) => {
   return parsed.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
 };
 
-const parseFeed = (xmlText: string, source: FeedSource): FeedItem[] => {
-  const xml = new DOMParser().parseFromString(xmlText, "text/xml");
-  if (xml.querySelector("parsererror")) return [];
-
-  const rssItems = Array.from(xml.querySelectorAll("item")).map((node) => {
-    const title = node.querySelector("title")?.textContent?.trim() || "Untitled";
-    const link = node.querySelector("link")?.textContent?.trim() || "";
-    const date = node.querySelector("pubDate")?.textContent?.trim() || "";
-    return { title, link, date, source: source.name, topic: source.topic };
-  });
-
-  if (rssItems.length > 0) return rssItems;
-
-  const atomItems = Array.from(xml.querySelectorAll("entry")).map((node) => {
-    const title = node.querySelector("title")?.textContent?.trim() || "Untitled";
-    const link = node.querySelector("link")?.getAttribute("href") || node.querySelector("id")?.textContent?.trim() || "";
-    const date = node.querySelector("published")?.textContent?.trim() || node.querySelector("updated")?.textContent?.trim() || "";
-    return { title, link, date, source: source.name, topic: source.topic };
-  });
-
-  return atomItems;
-};
-
 export function HomeIntelligence() {
   const navigate = useNavigate();
-  const [feedItems, setFeedItems] = useState<FeedItem[]>(fallbackItems);
-  const [loading, setLoading] = useState(true);
+  const location = useLocation();
+  const [feedItems] = useState<FeedItem[]>(fallbackItems);
   const [factIndex, setFactIndex] = useState(() => Math.floor(Math.random() * facts.length));
   const [factVisible, setFactVisible] = useState(true);
-
-  useEffect(() => {
-    let active = true;
-
-    const fetchFeeds = async () => {
-      const settled = await Promise.allSettled(
-        rssSources.map(async (source) => {
-          const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(source.url)}`;
-          const res = await fetch(proxyUrl);
-          if (!res.ok) throw new Error(`Failed to load ${source.name}`);
-          const xmlText = await res.text();
-          return parseFeed(xmlText, source).slice(0, 4);
-        }),
-      );
-
-      const merged = settled
-        .flatMap((result) => (result.status === "fulfilled" ? result.value : []))
-        .filter((item) => item.link);
-
-      if (!active) return;
-
-      if (merged.length > 0) {
-        const sorted = merged
-          .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-          .slice(0, 6);
-        setFeedItems(sorted);
-      }
-
-      setLoading(false);
-    };
-
-    fetchFeeds().catch(() => {
-      if (active) setLoading(false);
-    });
-
-    return () => {
-      active = false;
-    };
-  }, []);
 
   useEffect(() => {
     let swapTimeout: ReturnType<typeof setTimeout> | undefined;
@@ -158,7 +85,7 @@ export function HomeIntelligence() {
             className="text-[#0A0A0A]"
             style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(1.35rem, 2.5vw, 2.15rem)", lineHeight: 1.25 }}
           >
-            Popular Insights Across Branding, AI, and Strategic Operations
+            Popular insights across AI automation, small-business operations, and strategic execution
           </h2>
         </div>
 
@@ -169,10 +96,10 @@ export function HomeIntelligence() {
                 className="text-[#0A0A0A]"
                 style={{ fontFamily: "'Barlow', sans-serif", fontSize: "0.86rem", fontWeight: 700, letterSpacing: "0.04em", textTransform: "uppercase" as const }}
               >
-                Popular RSS Feed
+                Curated Field Notes
               </p>
               <span style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.62rem", color: "rgba(10,10,10,0.55)" }}>
-                {loading ? "Updating..." : "Live"}
+                Curated
               </span>
             </div>
             <div className="divide-y divide-black/8">
@@ -247,17 +174,17 @@ export function HomeIntelligence() {
                 className="w-full text-left px-3 py-2.5 border border-[#0A0A0A]/15 hover:border-[#D4AF37]/70 hover:bg-[#FAFAFA] transition-colors"
                 style={{ fontFamily: "'Barlow', sans-serif", fontSize: "0.9rem", fontWeight: 600 }}
               >
-                Explore Architecture
+                Compare Industry Architectures
               </button>
               <button
                 onClick={() => navigate("/brand-tool")}
                 className="w-full text-left px-3 py-2.5 border border-[#0A0A0A]/15 hover:border-[#D4AF37]/70 hover:bg-[#FAFAFA] transition-colors"
                 style={{ fontFamily: "'Barlow', sans-serif", fontSize: "0.9rem", fontWeight: 600 }}
               >
-                Launch Brand Decision Tool
+                Partner Brand Tool Access
               </button>
               <button
-                onClick={() => { window.location.href = "mailto:engage@axiomadvisorypartners.co"; }}
+                onClick={() => navigateToAudit(navigate, location.pathname)}
                 className="w-full text-left px-3 py-2.5 bg-[#D4AF37] text-[#0A0A0A] hover:bg-[#c5a12f] transition-colors"
                 style={{ fontFamily: "'Barlow', sans-serif", fontSize: "0.9rem", fontWeight: 700 }}
               >

@@ -2,6 +2,10 @@
 node_modules
 dist
 _imported_assets
+.playwright-cli
+tmp
+output
+.claude
 
 .DS_Store
 **/.DS_Store

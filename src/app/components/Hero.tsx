@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
+import { navigateToAudit } from "../lib/marketing";
 
 const heroImg = "https://pub-1312916bb6854ae6baff9ad5ab8e55db.r2.dev/Firefly_Gemini%20Flash%20(1).png";
 
@@ -13,17 +14,29 @@ export function Hero() {
   }, []);
 
   const navigate = useNavigate();
+  const location = useLocation();
 
   return (
     <section
       className="relative"
       style={{
         minHeight: "100svh",
-        background: "#e8e8e8",
+        background:
+          "radial-gradient(circle at 82% 18%, rgba(212,175,55,0.18) 0%, rgba(212,175,55,0.04) 16%, transparent 32%), linear-gradient(135deg, #090909 0%, #151515 48%, #0c0c0c 100%)",
         zIndex: 0,
         isolation: "isolate",
       }}
     >
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background:
+            "linear-gradient(to top, rgba(12,12,12,0.96) 0%, rgba(12,12,12,0.68) 30%, rgba(12,12,12,0.18) 62%, transparent 100%)",
+          opacity: imgLoaded ? 0.25 : 1,
+          transition: "opacity 0.8s ease",
+        }}
+      />
+
       {/* ── LAYER 1: Subject photo — full width, centered, with subtle zoom settle ── */}
       <div
         className="absolute inset-0 pointer-events-none"
@@ -88,7 +101,7 @@ export function Hero() {
               }}
             >Axiom Executive Advisory</p>
 
-            {/* Headline — "Strategic counsel." */}
+            {/* Headline */}
             <h1
               style={{
                 fontFamily: "'Playfair Display', serif",
@@ -103,9 +116,9 @@ export function Hero() {
                 transition: "opacity 0.7s ease 0.65s, transform 0.7s ease 0.65s",
               }}
             >
-              Strategic counsel.
+              Executive advisory.
             </h1>
-            {/* Headline — "Without compromise." */}
+            {/* Headline — supporting line */}
             <h1
               style={{
                 fontFamily: "'Playfair Display', serif",
@@ -121,7 +134,7 @@ export function Hero() {
                 transition: "opacity 0.7s ease 0.8s, transform 0.7s ease 0.8s",
               }}
             >
-              <span style={{ color: "#D4AF37" }}>Without</span> compromise.
+              <span style={{ color: "#D4AF37" }}>For</span> strategy, systems, and intelligent execution.
             </h1>
 
             {/* Description */}
@@ -138,8 +151,11 @@ export function Hero() {
                 transition: "opacity 0.6s ease 0.95s, transform 0.6s ease 0.95s",
               }}
             >
-              Axiom Executive Advisory delivers strategic advisory and operational
-              architecture for organizations navigating complexity at scale.
+              Axiom Executive Advisory helps small and mid-sized businesses implement
+              practical AI, creative process improvements, and revenue-saving
+              systems. From real estate teams to neighborhood businesses, we help
+              leaders identify what to automate, what to refine, and what to keep
+              human.
             </p>
           </div>
 
@@ -182,7 +198,7 @@ export function Hero() {
             </button>
 
             <button
-              onClick={() => { window.location.href = "mailto:engage@axiomadvisorypartners.co"; }}
+              onClick={() => navigateToAudit(navigate, location.pathname)}
               style={{
                 fontFamily: "'Barlow', sans-serif",
                 fontSize: "clamp(0.7rem, 1vw, 0.82rem)",
@@ -217,7 +233,7 @@ export function Hero() {
             transition: "opacity 0.5s ease 1.25s, transform 0.5s ease 1.25s",
           }}
         >
-          {["Advisory", "Governance", "Operations", "Brand", "Risk"].map((tag) => (
+          {["AI Automation", "Real Estate", "Neighborhood Business", "Design", "Process Improvement"].map((tag) => (
             <span
               key={tag}
               style={{

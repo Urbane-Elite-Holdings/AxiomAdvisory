@@ -1,7 +1,8 @@
 import { useEffect } from "react";
-import { Routes, Route, Navigate, useLocation } from "react-router";
+import { Routes, Route, useLocation } from "react-router";
 import { Navbar } from "./components/Navbar";
 import { Footer } from "./components/Footer";
+import { MarketingIntegrations } from "./components/MarketingIntegrations";
 
 // Pages
 import HomePage from "./pages/HomePage";
@@ -9,6 +10,7 @@ import ServicesPage from "./pages/ServicesPage";
 import ArchitecturePage from "./pages/ArchitecturePage";
 import AboutPage from "./pages/AboutPage";
 import WorkPage from "./pages/WorkPage";
+import ContactPage from "./pages/ContactPage";
 import BrandToolPage from "./pages/BrandToolPage";
 import BrandToolAdminPage from "./pages/BrandToolAdminPage";
 import PartnersPage from "./pages/PartnersPage";
@@ -33,6 +35,7 @@ export default function App() {
       className="min-h-screen bg-white overflow-x-hidden"
       style={{ fontFamily: "'Barlow', sans-serif" }}
     >
+      <MarketingIntegrations />
       <Navbar />
       <ScrollToTopOnRouteChange />
       <Routes>
@@ -41,7 +44,7 @@ export default function App() {
         <Route path="/architecture" element={<ArchitecturePage />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/work" element={<WorkPage />} />
-        <Route path="/contact" element={<Navigate to="/" replace />} />
+        <Route path="/contact" element={<ContactPage />} />
         <Route path="/brand-tool" element={<BrandToolPage />} />
         <Route path="/brand-tool/admin" element={<BrandToolAdminPage />} />
         <Route path="/partners" element={<PartnersPage />} />
